@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchVideo } from './api';
+import { fetchVideo } from '../api';
 
 const VideoPage = ({ weekNumber }) => {
     const [video, setVideo] = useState(null);
