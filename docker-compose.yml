@@ -7,6 +7,10 @@ services:
     container_name: backend
     volumes:
       - ./backend:/app
+      - ./static:/app/static
+      - ./media:/app/media
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     depends_on:
@@ -14,6 +18,7 @@ services:
 
   db:
     image: mysql:8.0
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: qr_video_db
@@ -21,10 +26,30 @@ services:
       MYSQL_PASSWORD: qr_user_password
     ports:
       - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
 
   frontend:
     build:
       context: ./frontend
     container_name: frontend
+    volumes:
+      - ./frontend:/app
     ports:
       - "3000:80"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./static:/static
+      - ./media:/media
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  db_data:
