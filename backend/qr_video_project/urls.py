@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/videos/', include('videos.urls')),
+    path('api/videos/latest/', views.latest_available_video, name='latest_available_video'),
 ]

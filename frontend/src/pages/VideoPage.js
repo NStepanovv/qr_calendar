@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchVideo } from '../api';
+import './VideoPage.css';
+import logo from "../assets/deco_logo.png";
 
 const VideoPage = ({ weekNumber }) => {
     const [video, setVideo] = useState(null);
@@ -11,13 +13,21 @@ const VideoPage = ({ weekNumber }) => {
             .catch(setError);
     }, [weekNumber]);
 
-    if (error) return <div>{error.message}</div>;
-    if (!video) return <div>Loading...</div>;
+    if (error) return <div className="video-container">{error.message}</div>;
+    if (!video) return <div className="video-container">Loading...</div>;
 
     return (
         <div>
-            <h1>Video for Week {video.week_number}</h1>
-            <video controls src={video.video_url}></video>
+            <a href="/" className="logo">
+                <img src={logo} alt="Company Logo" />
+            </a>
+            <div className="video-container">
+                <h1>Видео за неделю {video.week_number}</h1>
+                <video controls src={video.video_url}></video>
+                <p className="release-date">
+                    Дата доступа: {new Date(video.release_date).toLocaleDateString()}
+                </p>
+            </div>
         </div>
     );
 };

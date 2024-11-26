@@ -5,3 +5,9 @@ export const fetchVideo = async (weekNumber) => {
     if (!response.ok) throw new Error(await response.json());
     return response.json();
 };
+
+export const fetchLatestVideo = async () => {
+    const response = await fetch('/api/videos/latest/');
+    if (!response.ok) throw new Error(await response.json());
+    return response.json();
+};
